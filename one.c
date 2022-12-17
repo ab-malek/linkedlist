@@ -1,42 +1,43 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-struct Node{
+struct node{
 	int data;
-	struct Node *next;
+	struct node *next;
 };
 
-struct Node *createLinkedList(int ar[],int n){
-	struct Node *head = NULL, *temp = NULL, *current = NULL;
+struct node *createLinkedList(int ar[],int n){
+	struct node *head = NULL, *temp = NULL, *current = NULL;
+
 	int i;
 	for(i=0;i<n;i++){
-		temp = (struct Node *)malloc(sizeof(struct Node));
-		temp->data =  ar[i];
-		temp->next = NULL;
+		temp = (struct node *)malloc(sizeof(struct node));
+		temp->data = ar[i];
+
 		if(head == NULL){
 			head = temp;
 			current = temp;
 		}
 		else{
 			current->next = temp;
-			current = current->next;
+			current = temp;
 		}
-
 	}
 	current->next = NULL;
 	return head;
 }
 
-struct Node *insertNodeAtBegin(struct Node *head,int n){
-	struct Node *temp = (struct Node*)malloc(sizeof(struct Node));
+struct node *insertAtBegin(struct node *head,int n){
+	struct node *temp;
+	temp = (struct node *)malloc(sizeof(struct node));
 	temp->data = n;
 	temp->next = head;
 	return temp;
-};
+}
 
-struct Node *insertNodeAtEnd(struct Node *current,int n){
-	struct Node *head = current;
-	struct Node *temp = (struct Node *)malloc(sizeof(struct Node));
+void insertAtEnd(struct node *head,int n){
+	struct node *temp;
+	temp = (struct node *)malloc(sizeof(struct node));
 	temp->data = n;
 	while(head->next != NULL){
 		head = head->next;
@@ -44,21 +45,18 @@ struct Node *insertNodeAtEnd(struct Node *current,int n){
 
 	head->next = temp;
 	temp->next = NULL;
-	return current;
+}
 
-};
-
-void insertAtMiddle(struct Node *head,int pos,int n){
+void insertAtMiddle(struct node *head,int pos,int n){
 	int ct = 0;
 	while(head != NULL){
-		int k = head->data;
-		if(k == pos){
-			struct Node *temp = (struct Node *)malloc(sizeof(struct Node));
-
+		ct++;
+		if(ct == pos){
+			struct node *temp =(struct node *)malloc(sizeof(struct node));
 			temp->data = n;
 			temp->next = head->next;
 			head->next = temp;
-			return;
+			return ;
 		}
 		else{
 			head = head->next;
@@ -69,17 +67,21 @@ void insertAtMiddle(struct Node *head,int pos,int n){
 
 int main()
 {
-	int ar[] = {3,5 ,9,15};
+	int ar[] = {5,10,15,20,25};
 
-	struct Node *head = createLinkedList(ar,4);
+	struct node *head = createLinkedList(ar,5);
 
-	struct Node *current = insertNodeAtBegin(head,2);
-	current = insertNodeAtEnd(current,222);
-	head = current;
-	insertAtMiddle(current,5,123);
+	head = insertAtBegin(head,1);
 
-	while(current != NULL){
-		printf("%d\n",current->data);
-		current = current->next;
+	struct node *temp = head;
+	struct node *newHead = head;
+
+	insertAtEnd(temp,30);
+
+	insertAtMiddle(head,3,12);
+
+	while(newHead != NULL){
+		printf("%d   ",newHead->data);
+		newHead = newHead->next;
 	}
 }
